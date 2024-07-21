@@ -19,6 +19,20 @@ pub trait BenchmarkPolicy {
     fn run(&self, path: &mut PathBuf) -> Vec<(Duration, Duration)> {
         self.cd(path);
         self.compile();
-        self.benchmark()
+        let results = self.benchmark();
+        self.re_cd(path);
+
+        results
+    }
+
+    fn re_cd(&self, path: &Path) {
+        let depth = path.iter().count();
+        let mut path = env::current_dir().expect("failed to get current directory");
+
+        for _ in 0..depth {
+            path.pop();
+        }
+
+        env::set_current_dir(path).expect("failed to change directory");
     }
 }

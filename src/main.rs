@@ -17,9 +17,7 @@ fn main() {
             let mut path = entry.path();
             let lang = path.into_iter().last().unwrap().to_str().unwrap();
 
-
             if let Some(policy) = policies.get(lang) {
-                println!("Benchmarking {}...", lang);
                 policy.run(&mut path);
             } else {
                 println!("Unsupported language: {}", lang);
