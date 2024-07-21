@@ -24,11 +24,11 @@ impl super::BenchmarkPolicy for CSharp {
             let mut execution_time = Duration::ZERO;
             
             while execution_time < Duration::from_secs(1) {
-                let mut command = Command::new(&buff);
+                let mut command = Command::new("mono");
                
                 let start = std::time::Instant::now();
             
-                command.arg(n.to_string()).arg(flag).output().expect("failed to run");
+                command.arg(&buff).arg(n.to_string()).arg(flag).output().expect("failed to run");
     
                 execution_time = start.elapsed();
                 
