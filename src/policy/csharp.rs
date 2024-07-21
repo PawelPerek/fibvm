@@ -1,4 +1,4 @@
-use std::{path::PathBuf, process::Command, time::Duration};
+use std::{path::PathBuf, process::Command};
 
 pub struct CSharp;
 
@@ -15,29 +15,12 @@ impl super::BenchmarkPolicy for CSharp {
         command.output().expect("failed to compile");
     }
 
-    fn benchmark(&self) -> Vec<(Duration, Duration)> {
-        println!("Benchmarking C# code...");
+    fn benchmark_command(&self) -> Command {
         let buff: PathBuf = [".", "build", "main"].iter().collect();
+        let mut command = Command::new("mono");
 
-        for flag in ["", "--native"] {
-            let mut n = 0;
-            let mut execution_time = Duration::ZERO;
-            
-            while execution_time < Duration::from_secs(1) {
-                let mut command = Command::new("mono");
-               
-                let start = std::time::Instant::now();
-            
-                command.arg(&buff).arg(n.to_string()).arg(flag).output().expect("failed to run");
-    
-                execution_time = start.elapsed();
-                
-                println!("n = {}, flag = {}, execution time = {:?}", n, flag, execution_time);
-    
-                n += 1;
-            }
-        } 
-    
-        vec![]
+        command.arg(&buff);
+
+        command
     }
 }

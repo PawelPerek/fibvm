@@ -15,6 +15,7 @@ fn main() {
 
     policies.insert("c", Box::new(policy::C));
     policies.insert("c++", Box::new(policy::Cpp));
+    policies.insert("python", Box::new(policy::Python));
 
     for entry in path.read_dir().expect("read_dir call failed") {
         if let Ok(entry) = entry {
