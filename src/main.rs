@@ -25,13 +25,20 @@ struct C;
 
 impl BenchmarkPolicy for C {
     fn compile(&self) {
+        let _ = std::fs::create_dir("build");
+
+        let buff = ["build", "main"].iter().collect::<PathBuf>();
+        let output_file = buff.as_path();
+
+        dbg!(output_file);
+
         let mut command = Command::new("gcc");
-        command.arg("-o").arg("output").arg("main.c");
+        command.arg("-o").arg(output_file).arg("main.c");
         command.output().expect("failed to compile");
     }
 
     fn benchmark(&self) -> Vec<(Duration, Duration)> {
-        let buff: PathBuf = [".", "output"].iter().collect();
+        let buff: PathBuf = [".", "build", "main"].iter().collect();
 
         for flag in ["", "--native"] {
             let mut n = 0;
