@@ -4,12 +4,11 @@ pub struct C;
 
 impl super::BenchmarkPolicy for C {
     fn compile(&self) {
+        println!("Compiling C code...");
         let _ = std::fs::create_dir("build");
 
         let buff = ["build", "main"].iter().collect::<PathBuf>();
         let output_file = buff.as_path();
-
-        dbg!(output_file);
 
         let mut command = Command::new("gcc");
         command.arg("-o").arg(output_file).arg("main.c");
@@ -17,6 +16,7 @@ impl super::BenchmarkPolicy for C {
     }
 
     fn benchmark(&self) -> Vec<(Duration, Duration)> {
+        println!("Benchmarking C code...");
         let buff: PathBuf = [".", "build", "main"].iter().collect();
 
         for flag in ["", "--native"] {

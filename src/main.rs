@@ -9,6 +9,10 @@ fn main() {
 
     let mut policies: HashMap<&str, Box<dyn policy::BenchmarkPolicy>> = HashMap::new();
     
+    if std::env::args().any(|arg| arg == "--enable-c#") {
+        policies.insert("c#", Box::new(policy::CSharp));
+    }
+
     policies.insert("c", Box::new(policy::C));
     policies.insert("c++", Box::new(policy::Cpp));
 

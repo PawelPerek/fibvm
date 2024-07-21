@@ -2,9 +2,11 @@ use std::{env, path::{Path, PathBuf}, time::Duration};
 
 mod c;
 mod cpp;
+mod csharp;
 
 pub use c::C;
 pub use cpp::Cpp;
+pub use csharp::CSharp;
 
 pub trait BenchmarkPolicy {
     fn cd(&self, path: &Path) {
